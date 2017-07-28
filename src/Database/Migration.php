@@ -76,6 +76,16 @@ abstract class Migration
     }
 
     /**
+     * Remove columns from a table.
+     */
+    public static function removeColumns($tableName, array $columnDefinitions)
+    {
+        return static::swap(
+            static::addColumns($tableName, $columnDefinitions)
+        );
+    }
+
+    /**
      * Rename a column.
      */
     public static function renameColumn($tableName, $from, $to)
@@ -145,6 +155,14 @@ abstract class Migration
                     $db->table('permissions')->where($key)->delete();
                 }
             }
+        ];
+    }
+
+    private static function swap(array $migration)
+    {
+        return [
+            'up' => $migration['down'],
+            'down' => $migration['up']
         ];
     }
 }
