@@ -31632,7 +31632,7 @@ System.register('flarum/utils/extractText', [], function (_export, _context) {
       return vdom.map(function (element) {
         return extractText(element);
       }).join('');
-    } else if ((typeof vdom === 'undefined' ? 'undefined' : babelHelpers.typeof(vdom)) === 'object') {
+    } else if ((typeof vdom === 'undefined' ? 'undefined' : babelHelpers.typeof(vdom)) === 'object' && vdom !== null) {
       return extractText(vdom.children);
     } else {
       return vdom;
@@ -32250,7 +32250,7 @@ System.register('flarum/utils/patchMithril', ['../Component'], function (_export
       }
 
       if (comp.prototype && comp.prototype instanceof Component) {
-        return comp.component.apply(comp, args);
+        return comp.component(args[0], args.slice(1));
       }
 
       var node = mo.apply(this, arguments);
